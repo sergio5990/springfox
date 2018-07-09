@@ -24,7 +24,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.env.Environment;
-import org.springframework.web.servlet.HandlerMapping;
+import org.springframework.web.reactive.HandlerMapping;
 import springfox.documentation.spring.web.DocumentationCache;
 import springfox.documentation.spring.web.PropertySourcedRequestMappingHandlerMapping;
 import springfox.documentation.spring.web.SpringfoxWebMvcConfiguration;
@@ -54,6 +54,11 @@ public class Swagger2DocumentationConfiguration {
       JsonSerializer jsonSerializer) {
     return new PropertySourcedRequestMappingHandlerMapping(
         environment,
-        new Swagger2Controller(environment, documentationCache, mapper, jsonSerializer));
+            getHandler(environment, documentationCache, mapper, jsonSerializer));
+  }
+
+  @Bean
+  public Swagger2Controller getHandler(Environment environment, DocumentationCache documentationCache, ServiceModelToSwagger2Mapper mapper, JsonSerializer jsonSerializer) {
+    return new Swagger2Controller(environment, documentationCache, mapper, jsonSerializer);
   }
 }

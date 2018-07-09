@@ -19,7 +19,7 @@
 
 package springfox.documentation.spi.service.contexts;
 
-
+import org.springframework.web.reactive.result.condition.PatternsRequestCondition;
 import springfox.documentation.RequestHandler;
 import springfox.documentation.service.ApiDescription;
 import springfox.documentation.service.ApiListingReference;

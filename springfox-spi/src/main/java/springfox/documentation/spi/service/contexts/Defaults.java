@@ -20,6 +20,8 @@
 package springfox.documentation.spi.service.contexts;
 
 import com.fasterxml.classmate.TypeResolver;
+import com.google.common.base.Optional;
+import com.google.common.collect.Ordering;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -166,15 +168,12 @@ public class Defaults {
 
   private void initIgnorableTypes() {
     ignored = new HashSet<>();
-    ignored.add(ServletRequest.class);
     ignored.add(Class.class);
     ignored.add(Void.class);
     ignored.add(Void.TYPE);
-    ignored.add(HttpServletRequest.class);
-    ignored.add(HttpServletResponse.class);
+    ignored.add(HttpHeaders.class);
     ignored.add(HttpHeaders.class);
     ignored.add(BindingResult.class);
-    ignored.add(ServletContext.class);
     ignored.add(UriComponentsBuilder.class);
     ignored.add(ApiIgnore.class); //Used to ignore parameters
   }

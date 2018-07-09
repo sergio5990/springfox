@@ -24,15 +24,17 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.method.HandlerMethod;
-import org.springframework.web.servlet.HandlerMapping;
-import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
-import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
+import org.springframework.web.reactive.HandlerMapping;
+import org.springframework.web.reactive.result.method.RequestMappingInfo;
+import org.springframework.web.reactive.result.method.annotation.RequestMappingHandlerMapping;
 import org.springframework.web.util.UriTemplate;
+import org.springframework.web.util.pattern.PathPattern;
 
-import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import static java.util.Optional.*;
 
@@ -65,7 +67,12 @@ public class PropertySourcedRequestMappingHandlerMapping extends RequestMappingH
             logger.info(String.format("Mapped URL path [%s] onto method [%s]", mappingPath, handlerMethod.toString()));
             handlerMethods.put(mappingPath, handlerMethod);
           } else {
-            for (String path : mapping.getPatternsCondition().getPatterns()) {
+            Set<String> patterns = mapping.getPatternsCondition()
+                    .getPatterns()
+                    .stream()
+                    .map(PathPattern::getPatternString)
+                    .collect(Collectors.toSet());
+            for (String path : patterns) {
               logger.info(String.format("Mapped URL path [%s] onto method [%s]", path, handlerMethod.toString()));
               handlerMethods.put(path, handlerMethod);
             }
@@ -89,31 +96,4 @@ public class PropertySourcedRequestMappingHandlerMapping extends RequestMappingH
                 (AnnotationUtils.findAnnotation(beanType, RequestMapping.class) != null));
   }
 
-  /**
-   * The lookup handler method, maps the SEOMapper method to the request URL.
-   * <p>If no mapping is found, or if the URL is disabled, it will simply drop through
-   * to the standard 404 handling.</p>
-   *
-   * @param urlPath the path to match.
-   * @param request the http servlet request.
-   * @return The HandlerMethod if one was found.
-   */
-  @Override
-  protected HandlerMethod lookupHandlerMethod(String urlPath, HttpServletRequest request) {
-    logger.debug("looking up handler for path: " + urlPath);
-    HandlerMethod handlerMethod = handlerMethods.get(urlPath);
-    if (handlerMethod != null) {
-      return handlerMethod;
-    }
-    for (String path : handlerMethods.keySet()) {
-      UriTemplate template = new UriTemplate(path);
-      if (template.matches(urlPath)) {
-        request.setAttribute(
-            HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE,
-            template.match(urlPath));
-        return handlerMethods.get(path);
-      }
-    }
-    return null;
-  }
 }

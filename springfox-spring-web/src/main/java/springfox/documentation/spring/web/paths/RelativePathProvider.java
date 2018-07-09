@@ -25,17 +25,17 @@ import static org.springframework.util.StringUtils.*;
 
 
 public class RelativePathProvider extends AbstractPathProvider {
-  private static final String ROOT = "/";
-  private final ServletContext servletContext;
+  public static final String ROOT = "/";
+  private final String contextPath;
 
-  public RelativePathProvider(ServletContext servletContext) {
+  public RelativePathProvider(String contextPath) {
     super();
-    this.servletContext = servletContext;
+    this.contextPath = contextPath;
   }
 
   @Override
   protected String applicationPath() {
-    return isEmpty(servletContext.getContextPath()) ? ROOT : servletContext.getContextPath();
+    return isNullOrEmpty(contextPath) ? ROOT : contextPath;
   }
 
   @Override

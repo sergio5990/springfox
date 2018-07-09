@@ -23,6 +23,7 @@ import com.fasterxml.classmate.TypeResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.SmartLifecycle;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
@@ -82,7 +83,6 @@ public class DocumentationPluginsBootstrapper implements SmartLifecycle {
       ApiDocumentationScanner resourceListing,
       TypeResolver typeResolver,
       Defaults defaults,
-      ServletContext servletContext,
       Environment environment) {
 
     this.documentationPluginsManager = documentationPluginsManager;
@@ -90,7 +90,7 @@ public class DocumentationPluginsBootstrapper implements SmartLifecycle {
     this.scanned = scanned;
     this.resourceListing = resourceListing;
     this.environment = environment;
-    this.defaultConfiguration = new DefaultConfiguration(defaults, typeResolver, servletContext);
+    this.defaultConfiguration = new DefaultConfiguration(defaults, typeResolver, "");
   }
 
   private DocumentationContext buildContext(DocumentationPlugin each) {

@@ -20,7 +20,7 @@
 package springfox.documentation.spring.web.readers.operation;
 
 import com.fasterxml.classmate.TypeResolver;
-import org.springframework.web.servlet.mvc.condition.NameValueExpression;
+import org.springframework.web.reactive.result.condition.NameValueExpression;
 import springfox.documentation.builders.ParameterBuilder;
 import springfox.documentation.schema.ModelRef;
 import springfox.documentation.service.AllowableListValues;

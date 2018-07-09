@@ -55,7 +55,7 @@ ext {
           springProvided: [
                   "org.springframework:spring-core:$spring",
                   "org.springframework:spring-web:$spring",
-                  "org.springframework:spring-webmvc:$spring",
+                  "org.springframework:spring-webflux:$spring",
                   "org.springframework:spring-context:$spring",
           ],
           springBootProvided: [

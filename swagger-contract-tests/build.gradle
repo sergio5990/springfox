@@ -51,7 +51,7 @@ dependencies {
   testCompile("org.springframework.boot:spring-boot-starter-test")
 
   compile project(':springfox-swagger1')
-  compile project(':springfox-swagger2')
+  compile project(':springfox-swagger2-webflux')
   compile project(':springfox-data-rest')
   compile project(':springfox-petstore')
   compile project(':springfox-bean-validators')

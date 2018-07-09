@@ -22,9 +22,10 @@ import com.fasterxml.classmate.ResolvedType;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.method.HandlerMethod;
-import org.springframework.web.servlet.mvc.condition.NameValueExpression;
-import org.springframework.web.servlet.mvc.condition.PatternsRequestCondition;
-import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
+import org.springframework.web.reactive.result.condition.NameValueExpression;
+import org.springframework.web.reactive.result.condition.PatternsRequestCondition;
+import org.springframework.web.reactive.result.method.RequestMappingInfo;
+import org.springframework.web.util.pattern.PathPattern;
 import springfox.documentation.RequestHandler;
 import springfox.documentation.RequestHandlerKey;
 import springfox.documentation.service.ResolvedMethodParameter;
@@ -60,11 +61,10 @@ public class CombinedRequestHandler implements RequestHandler {
 
   @Override
   public PatternsRequestCondition getPatternsCondition() {
-    return new PatternsRequestCondition(Stream.concat(
-        first.getPatternsCondition().getPatterns().stream(),
-        second.getPatternsCondition().getPatterns().stream())
-        .distinct()
-        .toArray(String[]::new));
+    List<PathPattern> patterns = new ArrayList<>();
+    patterns.addAll(first.getPatternsCondition().getPatterns());
+    patterns.addAll(second.getPatternsCondition().getPatterns());
+    return new PatternsRequestCondition(patterns);
   }
 
   @Override
@@ -112,7 +112,7 @@ public class CombinedRequestHandler implements RequestHandler {
   @Override
   public RequestHandlerKey key() {
     return new RequestHandlerKey(
-        getPatternsCondition().getPatterns(),
+        getPatternsCondition().getPatterns().stream().map(PathPattern::getPatternString).collect(toSet()),
         supportedMethods(),
         consumes(),
         produces());

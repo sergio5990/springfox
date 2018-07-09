@@ -24,6 +24,10 @@ import springfox.documentation.RequestHandler;
 import springfox.documentation.spi.service.contexts.ApiSelector;
 
 import java.util.function.Predicate;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import static com.google.common.base.Predicates.*;
 
 public class ApiSelectorBuilder {
   private final Docket parent;
@@ -57,7 +61,11 @@ public class ApiSelectorBuilder {
     return new Predicate<RequestHandler>() {
       @Override
       public boolean test(RequestHandler input) {
-        return input.getPatternsCondition().getPatterns().stream().anyMatch(pathSelector);
+        return input.getPatternsCondition()
+                .getPatterns()
+                .stream()
+                .map(PathPattern::getPatternString)
+                .anyMatch(pathSelector);
       }
     };
   }

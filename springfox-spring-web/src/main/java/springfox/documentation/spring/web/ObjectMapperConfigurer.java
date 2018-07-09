@@ -26,7 +26,6 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 import springfox.documentation.schema.configuration.ObjectMapperConfigured;
 
 import java.util.ArrayList;
@@ -42,11 +41,6 @@ public class ObjectMapperConfigurer implements BeanPostProcessor, ApplicationEve
 
   @Override
   public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-
-    if (bean instanceof RequestMappingHandlerAdapter) {
-      RequestMappingHandlerAdapter adapter = (RequestMappingHandlerAdapter) bean;
-      adapter.setMessageConverters(configureMessageConverters(adapter.getMessageConverters()));
-    }
     return bean;
   }
 

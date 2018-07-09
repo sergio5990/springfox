@@ -18,16 +18,12 @@
  */
 package springfox.documentation.swagger.common;
 
-import org.springframework.http.server.ServletServerHttpRequest;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
-import org.springframework.web.util.UrlPathHelper;
 
-import javax.servlet.http.HttpServletRequest;
 
 import static org.springframework.util.StringUtils.*;
-import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.*;
 
 public class HostNameProvider {
 
@@ -36,13 +32,12 @@ public class HostNameProvider {
   }
 
   public static UriComponents componentsFrom(
-      HttpServletRequest request,
-      String basePath) {
+          ServerHttpRequest request,
+          String basePath) {
 
-    ServletUriComponentsBuilder builder = fromServletMapping(request, basePath);
+    UriComponentsBuilder builder = fromServletMapping(request, basePath);
 
-    UriComponents components = UriComponentsBuilder.fromHttpRequest(
-        new ServletServerHttpRequest(request))
+    UriComponents components = UriComponentsBuilder.fromPath(request.getPath().value())
         .build();
 
     String host = components.getHost();
@@ -56,16 +51,16 @@ public class HostNameProvider {
     return builder.build();
   }
 
-  private static ServletUriComponentsBuilder fromServletMapping(
-      HttpServletRequest request,
-      String basePath) {
+  private static UriComponentsBuilder fromServletMapping(
+          ServerHttpRequest request,
+          String basePath) {
 
-    ServletUriComponentsBuilder builder = fromContextPath(request);
+    UriComponentsBuilder builder = UriComponentsBuilder.fromPath(request.getPath().value());
 
     XForwardPrefixPathAdjuster adjuster = new XForwardPrefixPathAdjuster(request);
     builder.replacePath(adjuster.adjustedPath(basePath));
-    if (hasText(new UrlPathHelper().getPathWithinServletMapping(request))) {
-      builder.path(request.getServletPath());
+    if (hasText(request.getPath().pathWithinApplication().value())) {
+      builder.path(request.getPath().contextPath().value());
     }
 
     return builder;

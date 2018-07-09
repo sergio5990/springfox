@@ -26,11 +26,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.util.UriComponents;
 import springfox.documentation.annotations.ApiIgnore;
 import springfox.documentation.service.Documentation;
@@ -41,14 +39,13 @@ import springfox.documentation.spring.web.json.JsonSerializer;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.mappers.ServiceModelToSwagger2Mapper;
 
-import javax.servlet.http.HttpServletRequest;
 
 import static java.util.Optional.*;
 import static org.springframework.util.MimeTypeUtils.*;
 import static org.springframework.util.StringUtils.*;
 import static springfox.documentation.swagger.common.HostNameProvider.*;
 
-@Controller
+@RestController
 @ApiIgnore
 public class Swagger2Controller {
 
@@ -87,7 +84,7 @@ public class Swagger2Controller {
   @ResponseBody
   public ResponseEntity<Json> getDocumentation(
       @RequestParam(value = "group", required = false) String swaggerGroup,
-      HttpServletRequest servletRequest) {
+      ServerHttpRequest request) {
 
     String groupName = ofNullable(swaggerGroup).orElse(Docket.DEFAULT_GROUP_NAME);
     Documentation documentation = documentationCache.documentationByGroup(groupName);
@@ -96,7 +93,7 @@ public class Swagger2Controller {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
     Swagger swagger = mapper.mapDocumentation(documentation);
-    UriComponents uriComponents = componentsFrom(servletRequest, swagger.getBasePath());
+    UriComponents uriComponents = componentsFrom(request, swagger.getBasePath());
     swagger.basePath(isEmpty(uriComponents.getPath()) ? "/" : uriComponents.getPath());
     if (isEmpty(swagger.getHost())) {
       swagger.host(hostName(uriComponents));

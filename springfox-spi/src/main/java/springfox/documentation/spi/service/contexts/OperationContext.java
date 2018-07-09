@@ -23,7 +23,7 @@ import com.fasterxml.classmate.ResolvedType;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.mvc.condition.NameValueExpression;
+import org.springframework.web.reactive.result.condition.NameValueExpression;
 import springfox.documentation.builders.OperationBuilder;
 import springfox.documentation.service.Parameter;
 import springfox.documentation.service.ResolvedMethodParameter;

@@ -19,24 +19,24 @@
 package springfox.documentation.swagger.common;
 
 import org.springframework.core.SpringVersion;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 import springfox.documentation.service.PathAdjuster;
 
-import javax.servlet.http.HttpServletRequest;
 
 import static springfox.documentation.swagger.common.SpringVersionCapability.*;
 
 public class XForwardPrefixPathAdjuster implements PathAdjuster {
   static final String X_FORWARDED_PREFIX = "X-Forwarded-Prefix";
 
-  private final HttpServletRequest request;
+  private final ServerHttpRequest request;
 
-  public XForwardPrefixPathAdjuster(HttpServletRequest request) {
+  public XForwardPrefixPathAdjuster(ServerHttpRequest request) {
     this.request = request;
   }
 
   @Override
   public String adjustedPath(String path) {
-    String prefix = request.getHeader(X_FORWARDED_PREFIX);
+    String prefix = request.getHeaders().getFirst(X_FORWARDED_PREFIX);
     if (prefix != null) {
       if (!supportsXForwardPrefixHeader(SpringVersion.getVersion())) {
         return prefix + path;

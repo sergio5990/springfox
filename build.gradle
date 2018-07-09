@@ -39,7 +39,7 @@ subprojects {
   //Not strictly groovy projects but useful for the IDE to recognise groovy test sources
   apply plugin: 'groovy' //gradle groovy plugin extends the java plugin
   apply plugin: 'com.github.adrianbk.jvmsrc'
-  apply plugin: 'checkstyle'
+//  apply plugin: 'checkstyle'
 
   javadoc {
     options.encoding = 'UTF-8'
@@ -61,11 +61,11 @@ subprojects {
     jcenter()
   }
 
-  checkstyle {
-    configFile = file("$rootDir/config/checkstyle.xml")
-  }
+//  checkstyle {
+//    configFile = file("$rootDir/config/checkstyle.xml")
+//  }
 
-  checkstyleMain.source = "src/main/java"
+//  checkstyleMain.source = "src/main/java"
 
   test {
     maxParallelForks = 2
@@ -82,7 +82,7 @@ subprojects {
 
   sourceCompatibility = jdkVersion
   targetCompatibility = jdkVersion
-  group = 'io.springfox'
+  group = 'io.springfox-webflux'
   version = project.rootProject.version
 
   task allDeps(type: DependencyReportTask) {}

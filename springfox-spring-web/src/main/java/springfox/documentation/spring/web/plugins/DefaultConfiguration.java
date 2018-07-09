@@ -33,13 +33,13 @@ public class DefaultConfiguration implements DefaultsProviderPlugin {
 
   private final Defaults defaults;
   private final TypeResolver typeResolver;
-  private final ServletContext servletContext;
+  private final String contextPath;
 
   public DefaultConfiguration(Defaults defaults,
                        TypeResolver typeResolver,
-                       ServletContext servletContext) {
+                       String contextPath) {
 
-    this.servletContext = servletContext;
+    this.contextPath = contextPath;
     this.defaults = defaults;
     this.typeResolver = typeResolver;
   }
@@ -53,7 +53,7 @@ public class DefaultConfiguration implements DefaultsProviderPlugin {
             .additionalIgnorableTypes(defaults.defaultIgnorableParameterTypes())
             .rules(defaults.defaultRules(typeResolver))
             .defaultResponseMessages(defaults.defaultResponseMessages())
-            .pathProvider(new RelativePathProvider(servletContext))
+            .pathProvider(new RelativePathProvider(contextPath))
             .typeResolver(typeResolver)
             .enableUrlTemplating(false)
             .selector(ApiSelector.DEFAULT);
