@@ -26,6 +26,7 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.reactive.result.condition.NameValueExpression;
 import org.springframework.web.reactive.result.condition.PatternsRequestCondition;
 import org.springframework.web.reactive.result.method.RequestMappingInfo;
+import org.springframework.web.util.pattern.PathPattern;
 import springfox.documentation.annotations.Incubating;
 import springfox.documentation.service.ResolvedMethodParameter;
 
@@ -107,10 +108,11 @@ public interface RequestHandler extends Comparable<RequestHandler> {
   }
 
   static String sortedPaths(PatternsRequestCondition patternsCondition) {
-    TreeSet<String> paths = new TreeSet<>(patternsCondition.getPatterns());
+    TreeSet<PathPattern> paths = new TreeSet<>(patternsCondition.getPatterns());
     return paths.stream()
-        .filter(Objects::nonNull)
-        .collect(Collectors.joining(","));
+            .filter(Objects::nonNull)
+            .map(PathPattern::getPatternString)
+            .collect(Collectors.joining(","));
   }
 
   static Comparator<RequestHandler> byPatternsCondition() {

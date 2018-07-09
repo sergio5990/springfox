@@ -19,9 +19,8 @@
 
 package springfox.documentation.spring.web.paths;
 
-import javax.servlet.ServletContext;
 
-import static org.springframework.util.StringUtils.*;
+import org.springframework.util.StringUtils;
 
 
 public class RelativePathProvider extends AbstractPathProvider {
@@ -35,7 +34,7 @@ public class RelativePathProvider extends AbstractPathProvider {
 
   @Override
   protected String applicationPath() {
-    return isNullOrEmpty(contextPath) ? ROOT : contextPath;
+    return StringUtils.isEmpty(contextPath) ? ROOT : contextPath;
   }
 
   @Override

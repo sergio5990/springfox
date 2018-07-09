@@ -48,7 +48,7 @@ dependencies {
 	compile('io.springfox:springfox-swagger-ui:2.9.0'){
 			exclude group:'io.springfox', module:'springfox-spring-web'
 	}
-	compile project(":springfox-swagger2-webflux")
+	compile project(":springfox-swagger-webflux")
 	compileOnly('org.springframework.boot:spring-boot-configuration-processor')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	testCompile('io.projectreactor:reactor-test')

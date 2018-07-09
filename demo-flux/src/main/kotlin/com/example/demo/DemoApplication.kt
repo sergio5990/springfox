@@ -1,0 +1,67 @@
+package com.example.demo
+
+import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.runApplication
+import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
+import org.springframework.web.bind.annotation.*
+import reactor.core.publisher.Mono
+import reactor.core.publisher.toMono
+import springfox.documentation.swagger2.annotations.EnableSwaggerWebFlux
+import org.springframework.web.reactive.function.server.RequestPredicates.*
+import org.springframework.http.MediaType.APPLICATION_JSON
+import org.springframework.web.reactive.function.server.*
+import org.springframework.web.reactive.function.server.ServerResponse.*
+
+
+@EnableSwaggerWebFlux
+@SpringBootApplication
+class DemoApplication
+
+fun main(args: Array<String>) {
+    runApplication<DemoApplication>(*args)
+}
+
+@Configuration
+class PersonRouter {
+    @Bean
+    fun route(): RouterFunction<ServerResponse> {
+        val storage = arrayListOf<String?>()
+        return RouterFunctions.route(
+                GET("/people/all").and(accept(APPLICATION_JSON)),
+                HandlerFunction {
+                    ok().contentType(APPLICATION_JSON).body(storage.toMono())
+                }
+        ).andRoute(
+                POST("/people/add").and(accept(APPLICATION_JSON)),
+                HandlerFunction {
+                    val name = it.formData().block()?.get("name")?.get(0)
+                    storage.add(name)
+                    ok().contentType(APPLICATION_JSON).body("ok".toMono())
+                }
+        )
+
+    }
+}
+
+
+@RestController
+@RequestMapping("/api")
+class Rest {
+    val storage = arrayListOf<String>()
+
+    @GetMapping("/all")
+    fun gelAll(): Mono<List<String>> {
+        return storage.toMono()
+    }
+
+    @PostMapping("/add")
+    fun add(@RequestParam name: String): Mono<Boolean> {
+        return storage.add(name).toMono()
+    }
+
+    @DeleteMapping("/delete")
+    fun delete(@RequestParam name: String): Mono<Boolean> {
+        return storage.remove(name).toMono()
+    }
+}
