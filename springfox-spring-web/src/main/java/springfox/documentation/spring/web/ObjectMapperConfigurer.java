@@ -26,6 +26,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.reactive.result.method.annotation.RequestMappingHandlerAdapter;
 import springfox.documentation.schema.configuration.ObjectMapperConfigured;
 
 import java.util.ArrayList;

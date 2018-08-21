@@ -94,8 +94,8 @@ public class OptimizedModelPropertiesProvider implements ModelPropertiesProvider
       TypeResolver typeResolver,
       BeanPropertyNamingStrategy namingStrategy,
       SchemaPluginsManager schemaPluginsManager,
-      TypeNameExtractor typeNameExtractor) {
-
+      TypeNameExtractor typeNameExtractor,
+      ObjectMapper objectMapper) {
     this.accessors = accessors;
     this.fields = fields;
     this.factoryMethods = factoryMethods;
@@ -103,11 +103,12 @@ public class OptimizedModelPropertiesProvider implements ModelPropertiesProvider
     this.namingStrategy = namingStrategy;
     this.schemaPluginsManager = schemaPluginsManager;
     this.typeNameExtractor = typeNameExtractor;
+    this.objectMapper = objectMapper;
   }
 
   @Override
   public void onApplicationEvent(ObjectMapperConfigured event) {
-    objectMapper = event.getObjectMapper();
+//    objectMapper = event.getObjectMapper();
   }
 
 

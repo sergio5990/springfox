@@ -28,12 +28,12 @@ class PersonRouter {
     fun route(): RouterFunction<ServerResponse> {
         val storage = arrayListOf<String?>()
         return RouterFunctions.route(
-                GET("/people/all").and(accept(APPLICATION_JSON)),
+                GET("/api/all"),
                 HandlerFunction {
                     ok().contentType(APPLICATION_JSON).body(storage.toMono())
                 }
         ).andRoute(
-                POST("/people/add").and(accept(APPLICATION_JSON)),
+                GET("/api/all"),
                 HandlerFunction {
                     val name = it.formData().block()?.get("name")?.get(0)
                     storage.add(name)
@@ -50,7 +50,7 @@ class PersonRouter {
 class Rest {
     val storage = arrayListOf<String>()
 
-    @GetMapping("/all")
+    @GetMapping("/all1")
     fun gelAll(): Mono<List<String>> {
         return storage.toMono()
     }
