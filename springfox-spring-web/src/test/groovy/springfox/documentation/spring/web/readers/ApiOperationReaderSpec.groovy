@@ -22,7 +22,7 @@ package springfox.documentation.spring.web.readers
 import com.fasterxml.classmate.TypeResolver
 import org.springframework.http.HttpMethod
 import org.springframework.web.method.HandlerMethod
-import org.springframework.web.servlet.mvc.method.RequestMappingInfo
+import org.springframework.web.reactive.result.method.RequestMappingInfo
 import springfox.documentation.builders.PathSelectors
 import springfox.documentation.service.Operation
 import springfox.documentation.spi.service.contexts.RequestMappingContext

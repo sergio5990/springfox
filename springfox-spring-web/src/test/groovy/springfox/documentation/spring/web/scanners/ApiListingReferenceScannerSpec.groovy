@@ -49,7 +49,7 @@ class ApiListingReferenceScannerSpec extends DocumentationContextSpec {
     contextBuilder.requestHandlers(requestHandlers)
             .withResourceGroupingStrategy(new SpringGroupingStrategy())
     plugin
-            .pathProvider(new RelativePathProvider(servletContext()))
+            .pathProvider(new RelativePathProvider("/"))
             .select()
               .apis(withClassAnnotation(ApiIgnore).negate())
               .paths(regex(".*?"))

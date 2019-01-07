@@ -18,7 +18,7 @@
  */
 
 package springfox.documentation.swagger.web
-import org.springframework.web.servlet.mvc.method.RequestMappingInfo
+import org.springframework.web.reactive.result.method.RequestMappingInfo
 import spock.lang.Specification
 import spock.lang.Unroll
 import springfox.documentation.spi.DocumentationType

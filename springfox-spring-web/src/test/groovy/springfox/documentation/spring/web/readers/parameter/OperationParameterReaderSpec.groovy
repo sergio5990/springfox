@@ -23,7 +23,7 @@ import com.fasterxml.classmate.TypeResolver
 import org.joda.time.LocalDateTime
 import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.RequestMethod
-import org.springframework.web.servlet.mvc.condition.ConsumesRequestCondition
+import org.springframework.web.reactive.result.condition.ConsumesRequestCondition
 import spock.lang.Unroll
 import springfox.documentation.schema.JacksonEnumTypeDeterminer
 import springfox.documentation.schema.property.bean.AccessorsProvider

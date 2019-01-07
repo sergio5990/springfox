@@ -68,7 +68,8 @@ class ModelProviderSupport {
         typeResolver,
         namingStrategy,
         pluginsManager,
-        typeNameExtractor)
+        typeNameExtractor,
+        new ObjectMapper())
 
     modelPropertiesProvider.onApplicationEvent(event)
     def modelDependenciesProvider = modelDependencyProvider(
@@ -121,9 +122,9 @@ class ModelProviderSupport {
         typeResolver,
         namingStrategy,
         pluginsManager,
-        typeNameExtractor)
+        typeNameExtractor,
+        new ObjectMapper())
     modelPropertiesProvider.onApplicationEvent(event)
     modelDependencyProvider(typeResolver, modelPropertiesProvider, typeNameExtractor)
   }
-
 }

@@ -5,5 +5,5 @@ include 'springfox-schema'
 include 'springfox-spring-web'
 include 'springfox-swagger-common'
 include 'springfox-swagger-webflux'
-//include 'demo-flux'
+include 'demo-flux'
 

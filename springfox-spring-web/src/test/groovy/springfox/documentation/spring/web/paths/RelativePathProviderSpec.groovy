@@ -34,7 +34,7 @@ class RelativePathProviderSpec extends Specification {
     given:
       ServletContext servletContext = Mock(ServletContext)
       servletContext.contextPath >> "/"
-      AbstractPathProvider provider = new RelativePathProvider(servletContext)
+      AbstractPathProvider provider = new RelativePathProvider("/")
 //      provider.apiResourcePrefix = "some/prefix"
 
     expect:
@@ -76,7 +76,7 @@ class RelativePathProviderSpec extends Specification {
 
   def "should never return a path with duplicate slash"() {
     setup:
-      RelativePathProvider swaggerPathProvider = new RelativePathProvider(servletContext())
+      RelativePathProvider swaggerPathProvider = new RelativePathProvider("/")
 
     when:
       String path = swaggerPathProvider.getResourceListingPath('/a', '/b')

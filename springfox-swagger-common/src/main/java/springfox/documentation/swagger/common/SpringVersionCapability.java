@@ -28,6 +28,6 @@ public class SpringVersionCapability {
 
   public static boolean supportsXForwardPrefixHeader(String version) {
     Version parsed = Version.parse(version);
-    return parsed.isGreaterThanOrEqualTo(FIVE_ZERO_ZERO);
+    return parsed.isLessThan(FIVE_ZERO_ZERO);
   }
 }

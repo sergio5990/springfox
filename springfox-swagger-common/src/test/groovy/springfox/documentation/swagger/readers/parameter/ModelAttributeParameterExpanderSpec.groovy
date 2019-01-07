@@ -63,7 +63,7 @@ class ModelAttributeParameterExpanderSpec extends DocumentationContextSpec {
         new SwaggerDefaults(
             new Defaults(),
             new TypeResolver(),
-            Mock(ServletContext))])
+            "")])
   }
 
   def "shouldn't expand hidden parameters"() {
@@ -90,9 +90,9 @@ class ModelAttributeParameterExpanderSpec extends DocumentationContextSpec {
     private TypeResolver typeResolver
 
     @Autowired
-    SwaggerDefaults(Defaults defaults, TypeResolver typeResolver, ServletContext servletContext) {
+    SwaggerDefaults(Defaults defaults, TypeResolver typeResolver, String context) {
       this.typeResolver = typeResolver
-      defaultConfiguration = new DefaultConfiguration(defaults, typeResolver, servletContext)
+      defaultConfiguration = new DefaultConfiguration(defaults, typeResolver, context)
     }
 
     @Override

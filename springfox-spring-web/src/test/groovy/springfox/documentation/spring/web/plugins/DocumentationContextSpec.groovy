@@ -38,7 +38,7 @@ class DocumentationContextSpec extends Specification {
   private defaultConfiguration
 
   def setup() {
-    defaultConfiguration = new DefaultConfiguration(new Defaults(), new TypeResolver(), Mock(ServletContext))
+    defaultConfiguration = new DefaultConfiguration(new Defaults(), new TypeResolver(),"/")
 
     contextBuilder = this.defaultConfiguration.create(DocumentationType.SWAGGER_12)
         .requestHandlers([])

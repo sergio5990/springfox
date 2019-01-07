@@ -18,7 +18,7 @@
  */
 package springfox.documentation.swagger.readers.operation
 import com.fasterxml.classmate.TypeResolver
-import org.springframework.web.servlet.mvc.method.RequestMappingInfo
+import org.springframework.web.reactive.result.method.RequestMappingInfo
 import springfox.documentation.spi.DocumentationType
 import springfox.documentation.spi.service.contexts.RequestMappingContext
 import springfox.documentation.spring.web.WebMvcRequestHandler

@@ -2,9 +2,10 @@ package springfox.documentation.spring.web.plugins
 
 import com.fasterxml.classmate.TypeResolver
 import org.springframework.web.bind.annotation.RequestMethod
-import org.springframework.web.servlet.mvc.condition.NameValueExpression
-import org.springframework.web.servlet.mvc.condition.ParamsRequestCondition
-import org.springframework.web.servlet.mvc.condition.PatternsRequestCondition
+import org.springframework.web.reactive.result.condition.NameValueExpression
+import org.springframework.web.reactive.result.condition.ParamsRequestCondition
+import org.springframework.web.reactive.result.condition.PatternsRequestCondition
+import org.springframework.web.util.pattern.PathPatternParser
 import spock.lang.Specification
 import spock.lang.Unroll
 import springfox.documentation.RequestHandler
@@ -45,7 +46,7 @@ class PathAndParametersEquivalenceSpec extends Specification {
       ResolvedMethodParameter parameter,
       Set<NameValueExpression<String>> params) {
     def handler = Mock(RequestHandler)
-    handler.patternsCondition >> new PatternsRequestCondition(path)
+    handler.patternsCondition >> new PatternsRequestCondition(new PathPatternParser().parse(path))
     handler.produces() >> Stream.of(produces).collect(toSet())
     handler.parameters >> [parameter]
     handler.supportedMethods() >> methods

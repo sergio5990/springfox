@@ -46,6 +46,7 @@ import static springfox.documentation.spi.schema.contexts.ModelContext.*
 
 @Mixin(SchemaPluginsSupport)
 class OptimizedModelPropertiesProviderSpec extends Specification {
+
   def "model properties are detected correctly"() {
     given:
     TypeResolver typeResolver = new TypeResolver()
@@ -63,7 +64,8 @@ class OptimizedModelPropertiesProviderSpec extends Specification {
         typeResolver,
         namingStrategy,
         defaultSchemaPlugins(),
-        typeNameExtractor)
+        typeNameExtractor,
+        new ObjectMapper())
     ResolvedType type = typeResolver.resolve(TypeWithSetterButNoGetter)
 
     and:
@@ -90,8 +92,8 @@ class OptimizedModelPropertiesProviderSpec extends Specification {
             emptySet()))
 
     then:
-    inputValue.collect { it.name }.containsAll(['property'])
-    returnValue.collect { it.name }.containsAll(['property'])
+    inputValue.collect {it.name}.containsAll(['property'])
+    returnValue.collect {it.name}.containsAll(['property'])
   }
 
   def "model unwrapped properties are detected correctly"() {
@@ -111,7 +113,8 @@ class OptimizedModelPropertiesProviderSpec extends Specification {
         typeResolver,
         namingStrategy,
         defaultSchemaPlugins(),
-        typeNameExtractor)
+        typeNameExtractor,
+        new ObjectMapper())
     ResolvedType type = typeResolver.resolve(UnwrappedType)
 
     and:
@@ -140,8 +143,8 @@ class OptimizedModelPropertiesProviderSpec extends Specification {
             emptySet()))
 
     then:
-    inputValue.collect { it.name }.containsAll(['name'])
-    returnValue.collect { it.name }.containsAll(['name'])
+    inputValue.collect {it.name}.containsAll(['name'])
+    returnValue.collect {it.name}.containsAll(['name'])
   }
 
   def "model ignored properties are detected correctly"() {
@@ -162,7 +165,8 @@ class OptimizedModelPropertiesProviderSpec extends Specification {
         typeResolver,
         namingStrategy,
         defaultSchemaPlugins(),
-        typeNameExtractor)
+        typeNameExtractor,
+        new ObjectMapper())
     ResolvedType type = typeResolver.resolve(UnwrappedType)
 
     and:
@@ -195,8 +199,8 @@ class OptimizedModelPropertiesProviderSpec extends Specification {
     def returnValue = sut.propertiesFor(type, returnContext)
 
     then:
-    inputValue.collect { it.name }.containsAll([])
-    returnValue.collect { it.name }.containsAll([])
+    inputValue.collect {it.name}.containsAll([])
+    returnValue.collect {it.name}.containsAll([])
   }
 
   def "model JsonFormat properties are detected correctly"() {
@@ -216,7 +220,8 @@ class OptimizedModelPropertiesProviderSpec extends Specification {
         typeResolver,
         namingStrategy,
         defaultSchemaPlugins(),
-        typeNameExtractor)
+        typeNameExtractor,
+        new ObjectMapper())
     ResolvedType type = typeResolver.resolve(TypeWithJsonFormat)
 
     and:
@@ -245,10 +250,10 @@ class OptimizedModelPropertiesProviderSpec extends Specification {
             emptySet()))
 
     then:
-    def inputProp = inputValue.find({ it.name == "localDate" })
+    def inputProp = inputValue.find({it.name == "localDate"})
     inputProp.type.erasedType.equals(String.class)
     inputProp.example.equals("MM-dd-yyyy")
-    def returnProp = returnValue.find({ it.name == "localDate" })
+    def returnProp = returnValue.find({it.name == "localDate"})
     returnProp.type.erasedType.equals(String.class)
     returnProp.example.equals("MM-dd-yyyy")
   }

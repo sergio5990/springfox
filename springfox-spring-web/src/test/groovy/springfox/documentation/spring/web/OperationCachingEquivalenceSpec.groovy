@@ -23,14 +23,18 @@ import com.fasterxml.classmate.TypeResolver
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.method.HandlerMethod
-import org.springframework.web.servlet.mvc.condition.ConsumesRequestCondition
-import org.springframework.web.servlet.mvc.condition.HeadersRequestCondition
-import org.springframework.web.servlet.mvc.condition.NameValueExpression
-import org.springframework.web.servlet.mvc.condition.ParamsRequestCondition
-import org.springframework.web.servlet.mvc.condition.ProducesRequestCondition
-import org.springframework.web.servlet.mvc.condition.RequestCondition
-import org.springframework.web.servlet.mvc.condition.RequestMethodsRequestCondition
-import org.springframework.web.servlet.mvc.method.RequestMappingInfo
+import org.springframework.web.reactive.result.condition.PatternsRequestCondition
+import org.springframework.web.reactive.result.condition.ConsumesRequestCondition
+import org.springframework.web.reactive.result.condition.HeadersRequestCondition
+import org.springframework.web.reactive.result.condition.NameValueExpression
+import org.springframework.web.reactive.result.condition.ParamsRequestCondition
+import org.springframework.web.reactive.result.condition.ProducesRequestCondition
+import org.springframework.web.reactive.result.condition.RequestCondition
+import org.springframework.web.reactive.result.condition.RequestMethodsRequestCondition
+import org.springframework.web.reactive.result.method.RequestMappingInfo
+import org.springframework.web.util.pattern.InternalPathPatternParser
+import org.springframework.web.util.pattern.PathPattern
+import org.springframework.web.util.pattern.PathPatternParser
 import spock.lang.Specification
 import springfox.documentation.RequestHandler
 import springfox.documentation.RequestHandlerKey
@@ -42,6 +46,8 @@ import springfox.documentation.spring.web.mixins.HandlerMethodsSupport
 import springfox.documentation.spring.web.readers.operation.HandlerMethodResolver
 
 import java.lang.annotation.Annotation
+
+import static java.util.stream.Collectors.toList
 
 class OperationCachingEquivalenceSpec extends Specification implements HandlerMethodsSupport {
   def methodResolver = new HandlerMethodResolver(new TypeResolver())
@@ -134,8 +140,10 @@ class OperationCachingEquivalenceSpec extends Specification implements HandlerMe
 
   def requestMapping(paths, consumes, produces, methods) {
     RequestCondition custom = null
+    def parser = new PathPatternParser()
+    def newPaths =  Arrays.asList(paths).stream().map {  parser.parse(it) }.collect(toList())
     new RequestMappingInfo("someName",
-        new PatternsRequestCondition(paths),
+        new PatternsRequestCondition(newPaths),
         new RequestMethodsRequestCondition(methods),
         new ParamsRequestCondition(),
         new HeadersRequestCondition(),

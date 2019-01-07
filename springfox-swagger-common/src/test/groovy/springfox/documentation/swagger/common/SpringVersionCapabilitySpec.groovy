@@ -25,15 +25,10 @@ class SpringVersionCapabilitySpec extends Specification {
 
     where:
     springVersion     | expected
-    "3.10.20.RELEASE" | true
-    "4.2.20.RELEASE"  | true
-    "4.3.14.RELEASE"  | true
-    "4.3.15.RELEASE"  | false
-    "4.4.16.RELEASE"  | false
     "5.0.0.RELEASE"   | true
-    "5.0.5.RELEASE"   | false
-    "5.1.0.RELEASE"   | false
-    "5.1.5.RELEASE"   | false
-    "6.1.6.RELEASE"   | false
+    "5.0.5.RELEASE"   | true
+    "5.1.0.RELEASE"   | true
+    "5.1.5.RELEASE"   | true
+    "6.1.6.RELEASE"   | true
   }
 }

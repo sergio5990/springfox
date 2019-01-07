@@ -139,7 +139,7 @@ class DocumentationPluginsManagerSpec extends Specification {
       def pathContext = Mock(PathContext)
       def context = Mock(DocumentationContext)
     and:
-      pathContext.pathProvider() >> new RelativePathProvider(Mock(ServletContext))
+      pathContext.pathProvider() >> new RelativePathProvider("/")
       pathContext.documentationContext() >> context
       context.getPathMapping() >> empty()
       pathContext.parameters >> []

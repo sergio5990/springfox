@@ -68,7 +68,7 @@ class ModelProviderForServiceSupport {
 
     def modelPropertiesProvider = new OptimizedModelPropertiesProvider(new AccessorsProvider(typeResolver),
         new FieldProvider(typeResolver), new FactoryMethodProvider(typeResolver), typeResolver, namingStrategy,
-        pluginsManager, typeNameExtractor)
+        pluginsManager, typeNameExtractor, new ObjectMapper())
 
     modelPropertiesProvider.onApplicationEvent(event)
     def modelDependenciesProvider =
@@ -102,7 +102,7 @@ class ModelProviderForServiceSupport {
 
     def modelPropertiesProvider = new OptimizedModelPropertiesProvider(new AccessorsProvider(typeResolver),
         new FieldProvider(typeResolver), new FactoryMethodProvider(typeResolver), typeResolver, namingStrategy,
-        pluginsManager, typeNameExtractor)
+        pluginsManager, typeNameExtractor, new ObjectMapper())
     modelPropertiesProvider.onApplicationEvent(event)
     def modelDependenciesProvider =
         new DefaultModelDependencyProvider(

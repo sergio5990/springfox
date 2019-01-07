@@ -20,7 +20,7 @@
 package springfox.documentation.spring.web.scanners
 
 import com.fasterxml.classmate.TypeResolver
-import org.springframework.web.servlet.mvc.method.RequestMappingInfo
+import org.springframework.web.reactive.result.method.RequestMappingInfo
 import spock.lang.Unroll
 import springfox.documentation.schema.mixins.SchemaPluginsSupport
 import springfox.documentation.service.ApiListing

@@ -20,7 +20,7 @@
 package springfox.documentation
 
 import org.springframework.web.method.HandlerMethod
-import org.springframework.web.servlet.mvc.method.RequestMappingInfo
+import org.springframework.web.reactive.result.method.RequestMappingInfo
 import spock.lang.Ignore
 import spock.lang.Specification
 import springfox.documentation.builders.MockRequestHandler

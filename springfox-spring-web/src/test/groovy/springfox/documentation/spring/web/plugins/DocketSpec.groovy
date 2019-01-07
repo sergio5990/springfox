@@ -128,49 +128,7 @@ class DocketSpec extends DocumentationContextSpec {
     pluginContext.getGlobalResponseMessages().keySet().containsAll([GET])
   }
 
-  def "Swagger ignorableParameterTypes should append to the default ignorableParameterTypes"() {
-    when:
-    new Docket(DocumentationType.SWAGGER_12)
-        .ignoredParameterTypes(AbstractSingletonProxyFactoryBean.class, ProxyFactoryBean.class)
-        .configure(contextBuilder)
-    and:
-    def pluginContext = contextBuilder.build()
 
-    then:
-    pluginContext.getIgnorableParameterTypes().contains(AbstractSingletonProxyFactoryBean.class)
-    pluginContext.getIgnorableParameterTypes().contains(ProxyFactoryBean.class)
-
-    and: "one of the defaults"
-    pluginContext.getIgnorableParameterTypes().contains(ServletRequest.class)
-  }
-
-  def "Sets alternative AlternateTypeProvider with a rule"() {
-    given:
-    def rule = newMapRule(String, String)
-    new Docket(DocumentationType.SWAGGER_12)
-        .alternateTypeRules(rule)
-        .configure(contextBuilder)
-
-    expect:
-    documentationContext().alternateTypeProvider.rules.contains(rule)
-  }
-
-  def "Model substitution registers new rules"() {
-    when:
-    def isjdk8 = System.getProperty("java.version").startsWith("1.8")
-    def jdk8RuleCount = (isjdk8 ? 6 : 0)
-    new Docket(DocumentationType.SWAGGER_12)
-        ."${method}"(*args)
-        .configure(contextBuilder)
-
-    then:
-    documentationContext().alternateTypeProvider.rules.size() == expectedSize + jdk8RuleCount
-
-    where:
-    method                    | args                               | expectedSize
-    'genericModelSubstitutes' | [ResponseEntity.class, List.class] | 15
-    'directModelSubstitute'   | [LocalDate.class, Date.class]      | 14
-  }
 
 
   def "Basic property checks"() {
@@ -182,7 +140,7 @@ class DocketSpec extends DocumentationContextSpec {
 
     where:
     builderMethod               | object                                         | property
-    'pathProvider'              | new RelativePathProvider(Mock(ServletContext)) | 'pathProvider'
+    'pathProvider'              | new RelativePathProvider("/") | 'pathProvider'
     'securitySchemes'           | new ArrayList<SecurityScheme>()                | 'securitySchemes'
     'securityContexts'          | validContexts()                                | 'securityContexts'
     'groupName'                 | 'someGroup'                                    | 'groupName'

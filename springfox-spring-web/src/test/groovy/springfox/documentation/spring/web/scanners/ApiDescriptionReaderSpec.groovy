@@ -20,7 +20,7 @@
 package springfox.documentation.spring.web.scanners
 
 import com.fasterxml.classmate.TypeResolver
-import org.springframework.web.servlet.mvc.method.RequestMappingInfo
+import org.springframework.web.reactive.result.method.RequestMappingInfo
 import spock.lang.Unroll
 import springfox.documentation.service.ApiDescription
 import springfox.documentation.service.Operation
@@ -76,8 +76,8 @@ class ApiDescriptionReaderSpec extends DocumentationContextSpec {
     !secondApiDescription.isHidden()
 
     where:
-    pathProvider                                   | prefix
-    new RelativePathProvider(Mock(ServletContext)) | ""
+    pathProvider                            | prefix
+    new RelativePathProvider("") | ""
   }
 
   def "should handle exceptions gracefully"() {
@@ -99,7 +99,7 @@ class ApiDescriptionReaderSpec extends DocumentationContextSpec {
             new HandlerMethodResolver(new TypeResolver()),
             requestMappingInfo,
             dummyHandlerMethod()))
-    operationReader.read(_) >> { throw new StackOverflowError("ouch") }
+    operationReader.read(_) >> {throw new StackOverflowError("ouch")}
 
     when:
     def descriptionList = sut.read(mappingContext)
@@ -114,19 +114,19 @@ class ApiDescriptionReaderSpec extends DocumentationContextSpec {
     Paths.sanitizeRequestMappingPattern(mappingPattern) == expected
 
     where:
-    mappingPattern                                  | expected
-    ""                                              | "/"
-    "/"                                             | "/"
-    "/businesses"                                   | "/businesses"
-    "/{businessId:\\w+}"                            | "/{businessId}"
-    "/{businessId:\\d{3}}"                          | "/{businessId}"
-    "/{businessId:\\d{3}}/{productId:\\D{3}\\d{3}}" | "/{businessId}/{productId}"
-    "/businesses/{businessId}"                      | "/businesses/{businessId}"
-    "/businesses/{businessId}/add"                  | "/businesses/{businessId}/add"
-    "/foo/bar:{baz}"                                | "/foo/bar:{baz}"
-    "/foo:{foo}/bar:{baz}"                          | "/foo:{foo}/bar:{baz}"
-    "/foo/bar:{baz:\\w+}"                           | "/foo/bar:{baz}"
-    "/{businessId:\\d{3}}:{productId:\\D{3}\\d{3}}" | "/{businessId}:{productId}"
+    mappingPattern                                                         | expected
+    ""                                                                     | "/"
+    "/"                                                                    | "/"
+    "/businesses"                                                          | "/businesses"
+    "/{businessId:\\w+}"                                                   | "/{businessId}"
+    "/{businessId:\\d{3}}"                                                 | "/{businessId}"
+    "/{businessId:\\d{3}}/{productId:\\D{3}\\d{3}}"                        | "/{businessId}/{productId}"
+    "/businesses/{businessId}"                                             | "/businesses/{businessId}"
+    "/businesses/{businessId}/add"                                         | "/businesses/{businessId}/add"
+    "/foo/bar:{baz}"                                                       | "/foo/bar:{baz}"
+    "/foo:{foo}/bar:{baz}"                                                 | "/foo:{foo}/bar:{baz}"
+    "/foo/bar:{baz:\\w+}"                                                  | "/foo/bar:{baz}"
+    "/{businessId:\\d{3}}:{productId:\\D{3}\\d{3}}"                        | "/{businessId}:{productId}"
     "/{businessId:\\d{3}}:{productId:\\D{3}\\d{3}[(abcd){9,3}?(?!abc)?]+}" | "/{businessId}:{productId}"
   }
 }

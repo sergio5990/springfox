@@ -22,7 +22,7 @@ package springfox.documentation.swagger.readers.operation
 import org.springframework.http.HttpMethod
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.multipart.MultipartFile
-import org.springframework.web.servlet.mvc.method.RequestMappingInfo
+import org.springframework.web.reactive.result.method.RequestMappingInfo
 import springfox.documentation.spi.DocumentationType
 import springfox.documentation.spi.service.contexts.OperationContext
 import springfox.documentation.spring.web.mixins.RequestMappingSupport

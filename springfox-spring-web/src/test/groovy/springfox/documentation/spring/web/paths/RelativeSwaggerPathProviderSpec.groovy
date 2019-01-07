@@ -31,7 +31,7 @@ class RelativeSwaggerPathProviderSpec extends Specification {
    def "assert urls"(){
       given:
         ServletContext servletContext = Mock()
-        RelativePathProvider provider = new RelativePathProvider(servletContext)
+        RelativePathProvider provider = new RelativePathProvider("/")
         servletContext.contextPath >> "/"
 
       expect:

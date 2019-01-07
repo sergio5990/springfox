@@ -20,10 +20,12 @@ package springfox.documentation.swagger.web
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.databind.ObjectMapper
+import org.junit.Ignore
 import org.skyscreamer.jsonassert.JSONAssert
 import org.skyscreamer.jsonassert.JSONCompareMode
 import spock.lang.Specification
 
+@Ignore
 class UiConfigurationSpec extends Specification {
   def uiConfig = new UiConfiguration("validator:urn", UiConfiguration.Constants.NO_SUBMIT_METHODS)
   def expected = "{\n" +

@@ -22,13 +22,15 @@ package springfox.documentation.spring.web.mixins
 import com.fasterxml.classmate.TypeResolver
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.method.HandlerMethod
-import org.springframework.web.servlet.mvc.condition.ConsumesRequestCondition
-import org.springframework.web.servlet.mvc.condition.HeadersRequestCondition
-import org.springframework.web.servlet.mvc.condition.ParamsRequestCondition
-import org.springframework.web.servlet.mvc.condition.PatternsRequestCondition
-import org.springframework.web.servlet.mvc.condition.ProducesRequestCondition
-import org.springframework.web.servlet.mvc.condition.RequestMethodsRequestCondition
-import org.springframework.web.servlet.mvc.method.RequestMappingInfo
+import org.springframework.web.reactive.result.condition.RequestMethodsRequestCondition
+import org.springframework.web.reactive.result.method.RequestMappingInfo
+import org.springframework.web.reactive.result.condition.ConsumesRequestCondition
+import org.springframework.web.reactive.result.condition.HeadersRequestCondition
+import org.springframework.web.reactive.result.condition.ParamsRequestCondition
+import org.springframework.web.reactive.result.condition.PatternsRequestCondition
+import org.springframework.web.reactive.result.condition.ProducesRequestCondition
+import org.springframework.web.util.pattern.PathPattern
+import org.springframework.web.util.pattern.PathPatternParser
 import springfox.documentation.builders.OperationBuilder
 import springfox.documentation.spi.service.contexts.OperationContext
 import springfox.documentation.spi.service.contexts.RequestMappingContext
@@ -46,6 +48,8 @@ import springfox.documentation.spring.web.readers.operation.CachingOperationName
 import springfox.documentation.spring.web.readers.operation.HandlerMethodResolver
 
 import javax.servlet.ServletContext
+
+import static java.util.stream.Collectors.toList
 
 class RequestMappingSupport {
 
@@ -146,7 +150,12 @@ class RequestMappingSupport {
   }
 
   PatternsRequestCondition patternsRequestCondition(String... patterns) {
-    new PatternsRequestCondition(patterns)
+    new PatternsRequestCondition(parsePattern(patterns))
+  }
+
+  private List<PathPattern> parsePattern(String... patterns) {
+    def parser = new PathPatternParser()
+    return Arrays.asList(patterns).stream().map{parser.parse(it)}.collect(toList())
   }
 
   ParamsRequestCondition paramsRequestCondition(String... params) {

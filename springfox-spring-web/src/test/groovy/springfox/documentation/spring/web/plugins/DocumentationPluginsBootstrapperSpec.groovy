@@ -47,7 +47,6 @@ class DocumentationPluginsBootstrapperSpec extends Specification {
               apiGroup,
               new TypeResolver(),
               new Defaults(),
-              Mock(ServletContext),
               new MockEnvironment())
 
   def setup() {

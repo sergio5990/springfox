@@ -21,8 +21,8 @@ package springfox.documentation.spring.web.readers.operation
 
 import com.fasterxml.classmate.TypeResolver
 import org.springframework.web.method.HandlerMethod
-import org.springframework.web.servlet.mvc.condition.ParamsRequestCondition
-import org.springframework.web.servlet.mvc.method.RequestMappingInfo
+import org.springframework.web.reactive.result.condition.ParamsRequestCondition
+import org.springframework.web.reactive.result.method.RequestMappingInfo
 import springfox.documentation.service.Parameter
 import springfox.documentation.spi.DocumentationType
 import springfox.documentation.spi.service.contexts.OperationContext

@@ -19,7 +19,7 @@
 package springfox.documentation.spring.web.scanners
 
 import com.fasterxml.classmate.TypeResolver
-import org.springframework.web.servlet.mvc.method.RequestMappingInfo
+import org.springframework.web.reactive.result.method.RequestMappingInfo
 import springfox.documentation.schema.mixins.TypesForTestingSupport
 import springfox.documentation.service.Operation
 import springfox.documentation.spi.service.contexts.RequestMappingContext

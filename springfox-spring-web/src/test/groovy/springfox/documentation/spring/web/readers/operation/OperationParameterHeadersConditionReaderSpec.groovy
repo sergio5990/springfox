@@ -21,8 +21,8 @@ package springfox.documentation.spring.web.readers.operation
 
 import com.fasterxml.classmate.TypeResolver
 import org.springframework.web.method.HandlerMethod
-import org.springframework.web.servlet.mvc.condition.HeadersRequestCondition
-import org.springframework.web.servlet.mvc.method.RequestMappingInfo
+import org.springframework.web.reactive.result.condition.HeadersRequestCondition
+import org.springframework.web.reactive.result.method.RequestMappingInfo
 import springfox.documentation.service.Parameter
 import springfox.documentation.spi.DocumentationType
 import springfox.documentation.spi.service.contexts.OperationContext
@@ -36,7 +36,7 @@ class OperationParameterHeadersConditionReaderSpec extends DocumentationContextS
   def "Should read a parameter given a parameter request condition"() {
     given:
       HandlerMethod handlerMethod = dummyHandlerMethod('methodWithParameterRequestCondition')
-      HeadersRequestCondition headersCondition = new HeadersRequestCondition("test=testValue")
+    HeadersRequestCondition headersCondition = new HeadersRequestCondition("test=testValue")
       RequestMappingInfo requestMappingInfo = requestMappingInfo('/parameter-conditions',
               ["headersCondition": headersCondition])
       OperationContext operationContext = operationContext(documentationContext(), handlerMethod, 0, requestMappingInfo)
