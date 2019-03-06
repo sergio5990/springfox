@@ -20,12 +20,15 @@
 package springfox.documentation.spi.service.contexts;
 
 import com.fasterxml.classmate.TypeResolver;
+import org.reactivestreams.Publisher;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.util.UriComponentsBuilder;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 import springfox.documentation.annotations.ApiIgnore;
 import springfox.documentation.builders.ResponseMessageBuilder;
 import springfox.documentation.schema.AlternateTypeRule;
@@ -112,6 +115,10 @@ public class Defaults {
     rules.add(newRule(typeResolver.resolve(HttpEntity.class, WildcardType.class),
             typeResolver.resolve(WildcardType.class)));
     rules.add(newRule(typeResolver.resolve(Optional.class, WildcardType.class), WildcardType.class));
+
+    rules.add(newRule(typeResolver.resolve(Mono.class, WildcardType.class), WildcardType.class));
+    rules.add(newRule(typeResolver.resolve(Publisher.class, WildcardType.class), WildcardType.class));
+    rules.add(newRule(typeResolver.resolve(Flux.class, WildcardType.class), WildcardType.class));
 
     maybeAddRuleForClassName(typeResolver, rules, "java.util.Optional", WildcardType.class);
 

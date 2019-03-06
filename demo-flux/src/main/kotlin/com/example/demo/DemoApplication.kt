@@ -30,11 +30,13 @@ class PersonRouter {
     return RouterFunctions.route(
         GET("/api/all"),
         HandlerFunction {
+          println("first")
           ok().contentType(APPLICATION_JSON).body(storage.toMono())
         }
     ).andRoute(
         GET("/api/all"),
         HandlerFunction {
+          println("second")
           val name = it.formData().block()?.get("name")?.get(0)
           storage.add(name)
           ok().contentType(APPLICATION_JSON).body("ok".toMono())
@@ -57,9 +59,15 @@ class Rest {
   fun add(@RequestParam name: String): Mono<Boolean> {
     return storage.add(name).toMono()
   }
+
   @PostMapping("/body")
   fun add(@RequestBody body: Body): Mono<Body> {
     return body.toMono()
+  }
+
+  @PostMapping("/bodyMono")
+  fun addMono(@RequestBody body: Mono<Body>): Mono<Body> {
+    return body
   }
 
   @DeleteMapping("/delete")

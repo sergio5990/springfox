@@ -28,8 +28,9 @@ import springfox.documentation.spring.web.dummy.models.Pet;
 @Controller
 @RequestMapping("/generic/pets")
 public class GenericPetController extends GenericRestController<Pet, PetRepository> {
+
   @PostMapping("test")
   public ResponseEntity<Pet> test() {
-    return new ResponseEntity(HttpStatus.OK);
+    return  ResponseEntity.ok().build();
   }
 }
